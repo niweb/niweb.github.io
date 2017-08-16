@@ -1,0 +1,83 @@
+<html>
+<body>
+    <style type="text/css">
+    #container {
+        height: 100%;
+        width: 100%;
+
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        text-align: center;
+    }
+
+    #textbox {
+        visibility: hidden;
+        margin-top: 50px;
+    }
+
+    #time {
+
+        margin: 20px;
+    }
+
+    </style>
+
+    <div id='container'>
+        <div>
+            <progress></progress>
+            <div id='textbox'>
+                <h3>Estimated remaining waiting time</h3>
+                <p id='time'>...</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="application/javascript">
+window.onload = function(){
+
+    var progressbar = document.querySelector('progress');
+    var textbox = document.getElementById('textbox');
+    var time = document.getElementById('time');
+    var x;
+
+    function startCountdown() {
+        var startTime = 12696;
+        var remainingTime = startTime;
+        progressbar.max = startTime;
+
+        x = setInterval(function(){
+
+            progressbar.value = startTime - remainingTime;
+
+            time.innerHTML = remainingTime-- + " Centiseconds";
+
+            if(remainingTime < 0) {
+                clearInterval(x);
+
+                time.innerHTML = "Nope, sorry. This page is WIP and I honestly don't know, when there will be content.<br>But thank you for waiting!"; //or looking into the code ;)
+            }
+        }, 10)
+
+    }
+
+    progressbar.onmouseover = function() {
+        textbox.style.visibility = 'visible';
+        startCountdown();
+    }
+
+    progressbar.onmouseout = function() {
+        console.log("mouse out");
+        clearInterval(x);
+
+        textbox.style.visibility = 'hidden';
+        time.innerHTML = "...";
+
+        progressbar.removeAttribute("max");
+        progressbar.removeAttribute("value");
+    }
+}
+</script>
